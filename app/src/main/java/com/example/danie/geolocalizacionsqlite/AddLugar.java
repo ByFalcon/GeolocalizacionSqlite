@@ -16,7 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.danie.geolocalizacionsqlite.POJO.Lugar;
+import com.example.danie.geolocalizacionsqlite.pojo.Lugar;
 import com.example.danie.geolocalizacionsqlite.localizacion.ServicioGeocoder;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -30,7 +30,7 @@ public class AddLugar extends AppCompatActivity {
     private static final int PERMISO_GPS = 1;
     public static final String TAG = MainActivity.class.getSimpleName();
 
-    private AddressResultReceiver resultReceiver;
+    //private AddressResultReceiver resultReceiver;
     private FusedLocationProviderClient fusedLocationClient;
     private Location ultimaPosicion = null;
     private LocationCallback callback;
@@ -45,7 +45,7 @@ public class AddLugar extends AppCompatActivity {
 
     Lugar lugar = new Lugar();
 
-    class AddressResultReceiver extends ResultReceiver {
+    /*class AddressResultReceiver extends ResultReceiver {
 
         public AddressResultReceiver(Handler handler) {
             super(handler);
@@ -57,9 +57,10 @@ public class AddLugar extends AppCompatActivity {
                 return;
             }
             String resultado = resultData.getString(ServicioGeocoder.Constants.RESULT_DATA_KEY);
+            //aquí ya puedo guardar el lugar tengo toda la información
             Log.v(TAG, resultado);
         }
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,12 +91,8 @@ public class AddLugar extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 lugar.setNombre(etNombre.getText().toString());
+                getLocation();
 
-                /*
-                hacer el insert con el objeto
-                 */
-
-                getLocation();//En el metodo get location asignare la latitud y la longitud al objeto
                 finish();
             }
         });
@@ -104,11 +101,11 @@ public class AddLugar extends AppCompatActivity {
     @SuppressLint("MissingPermission")
     private void getLocation() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        resultReceiver = new AddressResultReceiver(new Handler());
+        //resultReceiver = new AddressResultReceiver(new Handler());
         callback = createLocationCallback();
         request = createLocationRequest();
 
-        fusedLocationClient.getLastLocation()
+        /*fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
@@ -128,7 +125,7 @@ public class AddLugar extends AppCompatActivity {
                             Log.v(TAG, "última Location es null");
                         }
                     }
-                });
+                });*/
         fusedLocationClient.requestLocationUpdates(
                 request,
                 callback,
@@ -158,8 +155,9 @@ public class AddLugar extends AppCompatActivity {
 
     private void requestAddress(Location location) {
         Intent intent = new Intent(this, ServicioGeocoder.class);
-        intent.putExtra(ServicioGeocoder.Constants.RECEIVER, resultReceiver);
+        //intent.putExtra(ServicioGeocoder.Constants.RECEIVER, resultReceiver);
         intent.putExtra(ServicioGeocoder.Constants.LOCATION_DATA_EXTRA, location);
+        intent.putExtra(ServicioGeocoder.Constants.LOCATION_DATA_EXTRA2, lugar);
         startService(intent);
     }
 

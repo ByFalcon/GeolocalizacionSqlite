@@ -4,9 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
-import com.example.danie.geolocalizacionsqlite.POJO.Lugar;
+import com.example.danie.geolocalizacionsqlite.pojo.Lugar;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.danie.geolocalizacionsqlite.POJO;
+package com.example.danie.geolocalizacionsqlite.pojo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -21,14 +21,14 @@ public class Lugar implements Parcelable {
 
     public Lugar(long id,String nombre, double latitud, double longitud, String localidad, String pais, String comentario, int puntuacion, String fecha) {
         this.id = id;
-        this.nombre = nombre;
-        this.latitud = latitud;
-        this.longitud = longitud;
-        this.localidad = localidad;
-        this.pais = pais;
-        this.comentario = comentario;
-        this.puntuacion = puntuacion;
-        this.fecha = fecha;
+        this.nombre = nombre;//tu
+        this.latitud = latitud;//gps
+        this.longitud = longitud;//gps
+        this.localidad = localidad;//geocoder
+        this.pais = pais;//geocoder
+        this.comentario = comentario;//tu
+        this.puntuacion = puntuacion;//tu
+        this.fecha = fecha;//sistema
     }
 
     protected Lugar(Parcel in) {
