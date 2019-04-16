@@ -1,6 +1,7 @@
 package com.example.danie.geolocalizacionsqlite.localizacion;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -10,6 +11,7 @@ import android.os.ResultReceiver;
 import android.util.Log;
 
 import com.example.danie.geolocalizacionsqlite.pojo.Lugar;
+import com.example.danie.geolocalizacionsqlite.sqlite.GestorLugar;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,6 +20,8 @@ import java.util.Locale;
 public class ServicioGeocoder extends IntentService {
 
     //protected ResultReceiver receiver;
+    Lugar lugarFinal = new Lugar();
+    GestorLugar gl = new GestorLugar(this);
 
     public final class Constants {
         public static final int SUCCES_RESULT = 0;
@@ -51,13 +55,14 @@ public class ServicioGeocoder extends IntentService {
 
         //Location location = intent.getParcelableExtra(Constants.LOCATION_DATA_EXTRA);
         Lugar lugar = intent.getParcelableExtra(Constants.LOCATION_DATA_EXTRA2);
+        lugarFinal = lugar;
         //receiver = intent.getParcelableExtra(Constants.RECEIVER);
 
         List<Address> addresses = null;
         try{
             addresses = geocoder.getFromLocation(
                     //location.getLatitude(),
-                    //location.getAl(),
+                    //location.getLongitude(),
                     lugar.getLatitud(),
                     lugar.getLongitud(),
                     10);
@@ -92,13 +97,38 @@ public class ServicioGeocoder extends IntentService {
                 //ver las cadenas para ver qué tengo en cada una
             }
 
+            String[] partes = resultado.split(",");
+            String localidad = partes[2] +","+ partes[3];
+            String pais = partes[4];
+
+            saveResult(localidad.trim(), pais.trim());
+
             //deliverResultToReceiver(Constants.SUCCES_RESULT, resultado);
-            saveResult(resultado, resultado);
         }
     }
 
     private void saveResult(String localidad, String pais) { //Insert
+        String numeros = "0123456789";
+        String localidadFiltrada = "";
+        boolean letraCorrecta;
+        for (int i = 0; i<localidad.length(); i++){
+            letraCorrecta = true;
+            for (int j = 0; j<numeros.length(); j++){
+                if (localidad.charAt(i)==numeros.charAt(j)){
+                    letraCorrecta = false;
+                }
+            }
+            if (letraCorrecta==true){
+                localidadFiltrada+=localidad.charAt(i);
+            }
+        }
+        lugarFinal.setLocalidad(localidadFiltrada);
+        lugarFinal.setPais(pais);
 
+        /*
+        Hacer el insert
+         */
+        gl.insert(lugarFinal);
     }
 
     /*private void deliverResultToReceiver(int resultCode, String message){

@@ -5,8 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.Handler;
-import android.os.ResultReceiver;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.danie.geolocalizacionsqlite.pojo.Lugar;
 import com.example.danie.geolocalizacionsqlite.localizacion.ServicioGeocoder;
@@ -23,7 +22,10 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AddLugar extends AppCompatActivity {
 
@@ -38,10 +40,10 @@ public class AddLugar extends AppCompatActivity {
 
     private EditText etNombre;
     private Button btGuardar;
-
-    /*
-    crear la instancia de la base de datos y poner el insert
-     */
+    private Button btSumar;
+    private Button btRestar;
+    private TextView tvPuntuacion;
+    private EditText etComentario;
 
     Lugar lugar = new Lugar();
 
@@ -71,6 +73,11 @@ public class AddLugar extends AppCompatActivity {
 
         etNombre.findViewById(R.id.editText);
         btGuardar.findViewById(R.id.button);
+        btSumar.findViewById(R.id.btSumar);
+        btRestar.findViewById(R.id.btRestar);
+        etComentario.findViewById(R.id.etResumen);
+        tvPuntuacion.findViewById(R.id.tvPuntuacion);
+
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -87,12 +94,37 @@ public class AddLugar extends AppCompatActivity {
             //getLocation();
         }
 
+        btSumar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int puntuacion = Integer.parseInt(tvPuntuacion.getText().toString());
+                if(puntuacion<5){
+                    puntuacion++;
+                    tvPuntuacion.setText(puntuacion);
+                }
+            }
+        });
+
+        btRestar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int puntuacion = Integer.parseInt(tvPuntuacion.getText().toString());
+                if(puntuacion>1){
+                    puntuacion--;
+                    tvPuntuacion.setText(puntuacion);
+                }
+            }
+        });
+
         btGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 lugar.setNombre(etNombre.getText().toString());
+                lugar.setComentario(etComentario.getText().toString());
+                lugar.setPuntuacion(Integer.parseInt(tvPuntuacion.getText().toString()));
+                String date = dateNow();
+                lugar.setFecha(date);
                 getLocation();
-
                 finish();
             }
         });
@@ -144,6 +176,8 @@ public class AddLugar extends AppCompatActivity {
                     Log.v(TAG, location.getLatitude() + " " + location.getLongitude());
                 }
                 requestAddress(ultimaPosicion);
+                lugar.setLatitud(ultimaPosicion.getLatitude());
+                lugar.setLongitud(ultimaPosicion.getLongitude());
                 fusedLocationClient.removeLocationUpdates(callback);
 
                 //tvUno.setText("latitud: " + ultimaPosicion.getLatitude());
@@ -185,5 +219,11 @@ public class AddLugar extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public String dateNow(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 }
