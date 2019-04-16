@@ -2,17 +2,32 @@ package com.example.danie.geolocalizacionsqlite;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.danie.geolocalizacionsqlite.pojo.Lugar;
+import com.example.danie.geolocalizacionsqlite.sqlite.Ayudante;
+import com.example.danie.geolocalizacionsqlite.sqlite.GestorLugar;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
-    //crear el array con los lugares y mostrarlo
+    List<Lugar> lugares;
+    GestorLugar gestor;
+    Ayudante ayudante;
+    RecyclerView recyclerView;
+    Adaptador adaptador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,14 +36,40 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        recyclerView = findViewById(R.id.rvLugares);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        ayudante = new Ayudante(this);
+        gestor = new GestorLugar(this, true);
+
+        lugares = gestor.get();
+
+        adaptador = new Adaptador(lugares);
+
+        adaptador.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*
+                Ir al detalle
+                 */
+            }
+        });
+
+        recyclerView.setAdapter(adaptador);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*
+                añadir un lugar
+                 */
                 Intent intent = new Intent(MainActivity.this, AddLugar.class);
                 startActivity(intent);
             }
         });
+
+
 
     }
 
@@ -53,6 +94,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 }

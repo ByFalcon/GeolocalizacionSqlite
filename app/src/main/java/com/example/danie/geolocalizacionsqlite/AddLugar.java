@@ -71,12 +71,12 @@ public class AddLugar extends AppCompatActivity {
 
         Log.v(TAG, "inicio");
 
-        etNombre.findViewById(R.id.editText);
-        btGuardar.findViewById(R.id.button);
-        btSumar.findViewById(R.id.btSumar);
-        btRestar.findViewById(R.id.btRestar);
-        etComentario.findViewById(R.id.etResumen);
-        tvPuntuacion.findViewById(R.id.tvPuntuacion);
+        etNombre = findViewById(R.id.editText);
+        btGuardar = findViewById(R.id.button);
+        btSumar = findViewById(R.id.btSumar);
+        btRestar = findViewById(R.id.btRestar);
+        etComentario = findViewById(R.id.etResumen);
+        tvPuntuacion = findViewById(R.id.tvPuntuacion);
 
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -100,7 +100,7 @@ public class AddLugar extends AppCompatActivity {
                 int puntuacion = Integer.parseInt(tvPuntuacion.getText().toString());
                 if(puntuacion<5){
                     puntuacion++;
-                    tvPuntuacion.setText(puntuacion);
+                    tvPuntuacion.setText(String.valueOf(puntuacion));
                 }
             }
         });
@@ -111,7 +111,7 @@ public class AddLugar extends AppCompatActivity {
                 int puntuacion = Integer.parseInt(tvPuntuacion.getText().toString());
                 if(puntuacion>1){
                     puntuacion--;
-                    tvPuntuacion.setText(puntuacion);
+                    tvPuntuacion.setText(String.valueOf(puntuacion));
                 }
             }
         });
@@ -125,7 +125,10 @@ public class AddLugar extends AppCompatActivity {
                 String date = dateNow();
                 lugar.setFecha(date);
                 getLocation();
-                finish();
+                /*
+                finish no funciona por lo que tengo que hacer otra cosa
+                 */
+                //finish();
             }
         });
     }

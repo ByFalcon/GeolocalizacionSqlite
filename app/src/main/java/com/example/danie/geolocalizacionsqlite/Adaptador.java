@@ -7,10 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder> {
+import com.example.danie.geolocalizacionsqlite.pojo.Lugar;
 
-    public Adaptador(){
+import java.util.ArrayList;
+import java.util.List;
 
+public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder>
+        implements View.OnClickListener{
+
+    List<Lugar> lugares;
+    private View.OnClickListener listener;
+
+    public Adaptador(List<Lugar> lugares){
+        this.lugares = lugares;
     }
 
     @NonNull
@@ -23,17 +32,32 @@ public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-
+        viewHolder.tvNombre.setText(lugares.get(i).getNombre());
+        viewHolder.tvLatitud.setText(String.valueOf(lugares.get(i).getLatitud()));
+        viewHolder.tvLongitud.setText(String.valueOf(lugares.get(i).getLongitud()));
     }
 
     @Override
     public int getItemCount() {
+        if(lugares != null)
+            return lugares.size();
         return 0;
+    }
+
+    public void setOnClickListener(View.OnClickListener listener){
+        this.listener = listener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(listener != null){
+            listener.onClick(v);
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView tvNombre, tvLatitud, tvLongitud;
+        TextView tvNombre, tvLatitud, tvLongitud;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

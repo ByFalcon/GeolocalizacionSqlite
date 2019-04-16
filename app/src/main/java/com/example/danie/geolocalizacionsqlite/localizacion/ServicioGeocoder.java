@@ -125,10 +125,12 @@ public class ServicioGeocoder extends IntentService {
         lugarFinal.setLocalidad(localidadFiltrada);
         lugarFinal.setPais(pais);
 
+        Log.v("LUGAR", lugarFinal.toString());
         /*
         Hacer el insert
          */
         gl.insert(lugarFinal);
+        Log.v("TAG", "se ha realizado el insert");
     }
 
     /*private void deliverResultToReceiver(int resultCode, String message){
