@@ -91,7 +91,7 @@ public class AddLugar extends AppCompatActivity {
             }
         } else {
             Log.v(TAG, "se dispone del permiso por lo que se lanza directamente");
-            //getLocation();
+            getLocation();
         }
 
         btSumar.setOnClickListener(new View.OnClickListener() {
@@ -124,11 +124,9 @@ public class AddLugar extends AppCompatActivity {
                 lugar.setPuntuacion(Integer.parseInt(tvPuntuacion.getText().toString()));
                 String date = dateNow();
                 lugar.setFecha(date);
-                getLocation();
-                /*
-                finish no funciona por lo que tengo que hacer otra cosa
-                 */
-                //finish();
+
+                //getLocation();
+                finish();
             }
         });
     }
@@ -183,8 +181,6 @@ public class AddLugar extends AppCompatActivity {
                 lugar.setLongitud(ultimaPosicion.getLongitude());
                 fusedLocationClient.removeLocationUpdates(callback);
 
-                //tvUno.setText("latitud: " + ultimaPosicion.getLatitude());
-                //tvDos.setText("longitud " + ultimaPosicion.getLongitude());
             }
         };
         return locationCallback;

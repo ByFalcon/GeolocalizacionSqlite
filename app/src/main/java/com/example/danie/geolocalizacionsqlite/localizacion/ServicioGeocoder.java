@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
 
+import com.example.danie.geolocalizacionsqlite.AddLugar;
 import com.example.danie.geolocalizacionsqlite.pojo.Lugar;
 import com.example.danie.geolocalizacionsqlite.sqlite.GestorLugar;
 
@@ -126,11 +127,13 @@ public class ServicioGeocoder extends IntentService {
         lugarFinal.setPais(pais);
 
         Log.v("LUGAR", lugarFinal.toString());
-        /*
-        Hacer el insert
-         */
+
         gl.insert(lugarFinal);
-        Log.v("TAG", "se ha realizado el insert");
+        Log.v("INSERTZ", "se ha realizado el insert");
+
+        Intent i = new Intent(this, AddLugar.class);
+        i.putExtra("lugar",lugarFinal);
+        stopService(i);
     }
 
     /*private void deliverResultToReceiver(int resultCode, String message){
