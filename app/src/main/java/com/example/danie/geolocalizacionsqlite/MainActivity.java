@@ -52,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
         adaptador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                Ir al detalle
-                 */
+                Intent i = new Intent(MainActivity.this, Detalle.class);
+                Lugar lugarDetalle = lugares.get(recyclerView.getChildAdapterPosition(v));
+                i.putExtra("lugar", lugarDetalle);
             }
         });
 
@@ -64,9 +64,6 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                añadir un lugar
-                 */
                 Intent intent = new Intent(MainActivity.this, AddLugar.class);
                 startActivity(intent);
             }

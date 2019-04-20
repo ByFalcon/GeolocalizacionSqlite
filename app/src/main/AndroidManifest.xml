@@ -21,7 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddLugar"></activity>
+        <activity android:name=".AddLugar" />
+        <activity android:name=".Detalle"></activity>
     </application>
 
 </manifest>

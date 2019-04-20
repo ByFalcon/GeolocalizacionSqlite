@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.example.danie.geolocalizacionsqlite.pojo.Lugar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder>
@@ -61,9 +60,9 @@ public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder>
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvNombre = itemView.findViewById(R.id.tvNombre);
-            tvLatitud = itemView.findViewById(R.id.tvLatitud);
-            tvLongitud = itemView.findViewById(R.id.tvLongitud);
+            tvNombre = itemView.findViewById(R.id.tvNombreD);
+            tvLatitud = itemView.findViewById(R.id.tvLatitudD);
+            tvLongitud = itemView.findViewById(R.id.tvLongitudD);
 
         }
     }
