@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.example.danie.geolocalizacionsqlite.pojo.Lugar;
 import com.example.danie.geolocalizacionsqlite.localizacion.ServicioGeocoder;
+import com.example.danie.geolocalizacionsqlite.sqlite.Ayudante;
+import com.example.danie.geolocalizacionsqlite.sqlite.GestorLugar;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -40,6 +42,7 @@ public class AddLugar extends AppCompatActivity {
 
     private EditText etNombre;
     private Button btGuardar;
+    private Button btVolver;
     private Button btSumar;
     private Button btRestar;
     private TextView tvPuntuacion;
@@ -73,6 +76,7 @@ public class AddLugar extends AppCompatActivity {
 
         etNombre = findViewById(R.id.editText);
         btGuardar = findViewById(R.id.button);
+        btVolver = findViewById(R.id.btVolver);
         btSumar = findViewById(R.id.btSumar);
         btRestar = findViewById(R.id.btRestar);
         etComentario = findViewById(R.id.etResumen);
@@ -91,7 +95,7 @@ public class AddLugar extends AppCompatActivity {
             }
         } else {
             Log.v(TAG, "se dispone del permiso por lo que se lanza directamente");
-            getLocation();
+            //getLocation();
         }
 
         btSumar.setOnClickListener(new View.OnClickListener() {
@@ -124,8 +128,19 @@ public class AddLugar extends AppCompatActivity {
                 lugar.setPuntuacion(Integer.parseInt(tvPuntuacion.getText().toString()));
                 String date = dateNow();
                 lugar.setFecha(date);
-
-                //getLocation();
+                getLocation();
+                /*Lugar lugarFinal = new Intent().getParcelableExtra("lugarFinal");
+                lugar.setLocalidad(lugarFinal.getLocalidad());
+                lugar.setPais(lugarFinal.getPais());*/
+                //finish();
+            }
+        });
+        /*
+        pruebas
+         */
+        btVolver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 finish();
             }
         });

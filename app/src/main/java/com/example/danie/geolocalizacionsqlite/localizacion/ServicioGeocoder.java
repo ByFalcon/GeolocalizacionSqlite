@@ -9,6 +9,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.danie.geolocalizacionsqlite.AddLugar;
 import com.example.danie.geolocalizacionsqlite.pojo.Lugar;
@@ -22,7 +23,7 @@ public class ServicioGeocoder extends IntentService {
 
     //protected ResultReceiver receiver;
     Lugar lugarFinal = new Lugar();
-    GestorLugar gl = new GestorLugar(this);
+    GestorLugar gl = new GestorLugar(this, true);
 
     public final class Constants {
         public static final int SUCCES_RESULT = 0;
@@ -128,12 +129,13 @@ public class ServicioGeocoder extends IntentService {
 
         Log.v("LUGAR", lugarFinal.toString());
 
-        gl.insert(lugarFinal);
-        Log.v("INSERTZ", "se ha realizado el insert");
+        Long numL = Long.valueOf("0");
 
-        Intent i = new Intent(this, AddLugar.class);
-        i.putExtra("lugar",lugarFinal);
-        stopService(i);
+        numL = gl.insert(lugarFinal);
+
+        //Intent i = new Intent(this, AddLugar.class);
+        //i.putExtra("lugar",lugarFinal);
+        //stopService(i);
     }
 
     /*private void deliverResultToReceiver(int resultCode, String message){
