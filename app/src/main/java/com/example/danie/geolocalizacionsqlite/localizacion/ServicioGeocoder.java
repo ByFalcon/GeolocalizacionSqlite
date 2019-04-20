@@ -23,7 +23,7 @@ public class ServicioGeocoder extends IntentService {
 
     //protected ResultReceiver receiver;
     Lugar lugarFinal = new Lugar();
-    GestorLugar gl = new GestorLugar(this, true);
+    //GestorLugar gl = new GestorLugar(this, true);
 
     public final class Constants {
         public static final int SUCCES_RESULT = 0;
@@ -127,15 +127,14 @@ public class ServicioGeocoder extends IntentService {
         lugarFinal.setLocalidad(localidadFiltrada);
         lugarFinal.setPais(pais);
 
-        Log.v("LUGAR", lugarFinal.toString());
+        //Long numL = Long.valueOf("0");
+        //numL = gl.insert(lugarFinal);
 
-        Long numL = Long.valueOf("0");
-
-        numL = gl.insert(lugarFinal);
-
-        //Intent i = new Intent(this, AddLugar.class);
-        //i.putExtra("lugar",lugarFinal);
+        Intent i = new Intent(this, AddLugar.class);
+        i.putExtra("lugar",lugarFinal);
         //stopService(i);
+
+        Log.v("ZZZ", "se ha completado el servicio");
     }
 
     /*private void deliverResultToReceiver(int resultCode, String message){

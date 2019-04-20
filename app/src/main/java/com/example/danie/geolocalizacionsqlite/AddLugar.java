@@ -50,6 +50,8 @@ public class AddLugar extends AppCompatActivity {
 
     Lugar lugar = new Lugar();
 
+    GestorLugar gestor;
+
     /*class AddressResultReceiver extends ResultReceiver {
 
         public AddressResultReceiver(Handler handler) {
@@ -82,6 +84,7 @@ public class AddLugar extends AppCompatActivity {
         etComentario = findViewById(R.id.etResumen);
         tvPuntuacion = findViewById(R.id.tvPuntuacion);
 
+        gestor = new GestorLugar(this, true);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -95,7 +98,7 @@ public class AddLugar extends AppCompatActivity {
             }
         } else {
             Log.v(TAG, "se dispone del permiso por lo que se lanza directamente");
-            //getLocation();
+            getLocation();
         }
 
         btSumar.setOnClickListener(new View.OnClickListener() {
@@ -128,10 +131,16 @@ public class AddLugar extends AppCompatActivity {
                 lugar.setPuntuacion(Integer.parseInt(tvPuntuacion.getText().toString()));
                 String date = dateNow();
                 lugar.setFecha(date);
-                getLocation();
-                /*Lugar lugarFinal = new Intent().getParcelableExtra("lugarFinal");
-                lugar.setLocalidad(lugarFinal.getLocalidad());
-                lugar.setPais(lugarFinal.getPais());*/
+                //getLocation();
+                Lugar lugarFinal = new Intent().getParcelableExtra("lugarFinal");
+                if(lugarFinal != null) {
+                    lugar.setLocalidad(lugarFinal.getLocalidad());
+                    lugar.setPais(lugarFinal.getPais());
+                }
+                Long num = gestor.add(lugar);
+                if (num != -1){
+                    Log.v("ZZZ", "Se ha insertado");
+                }
                 //finish();
             }
         });
